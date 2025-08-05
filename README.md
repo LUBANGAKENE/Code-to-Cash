@@ -6,6 +6,34 @@ Code to Cash is an end-to-end algorithmic Forex trading system that harnesses de
 - **Model training**: Jupyter notebook workflows to train neural networks to predict the direction of the market.
 - **Backtesting**: Evaluate strategies on historical data.
 - **Live execution**: MQL5 Expert Advisor for seamless deployment on MetaTrader 5, including risk management and position sizing.
+## 🔍 How the Algorithm Works
+### 1. Fetching Predictions
+- **Backtest Mode**  
+  - The algorithm uses two parallel arrays, `times[]` and `predictions[]`, which contain predictions the model would have made for the time are hard-coded at compile time.  
+- **Live Mode**  
+  - Instead of hard-coded arrays, the algorithm fetches the latest prediction for each 4 H bar directly from the trained model via a ZeroMQ socket.
+### 2. Trading Window  
+   - Only runs between `StartHour:StartMinute` and `EndHour:EndMinute` (local or broker time).  
+   - Outside that window it closes any open positions, deletes pending orders, and resets flags.
+### 3. On Each New Bar
+   - Aligns the current 4H candle time to pick up the latest prediction.  
+   - Computes the highest high and lowest low over the past `HighLowBars` bars (breakout levels).
+### 4. Entry Logic
+   - **Buy prediction** → place a **BuyStop** at the recent high;  
+     stop-loss at the recent low;  
+     take-profit at `stop-loss distance × RiskToRewardRatio`.  
+   - **Sell prediction** → place a **SellStop** at the recent low;  
+     stop-loss at the recent high;  
+     take-profit at `stop-loss distance × RiskToRewardRatio`.  
+   - Ensures only one pending “buy” and one “sell” order per bar via `glBuyPlaced`/`glSellPlaced` flags.
+### 5. Money Management
+   - If `UseMoneyManagement` is true, `MoneyManagement()` computes position size from `RiskPercent`;  
+   - Otherwise it uses a fixed lot (`FixedVolume`).
+### 6. Optional Risk Controls
+   - **Break-even**: once a trade reaches `BreakEvenRatio` in profit, moves SL to break-even with an optional `LockProfit`.  
+   - (Trailing-stop code is included but disabled by default.)
+
+
 ## 📂 Repository Structure
 - **training** - CSVs or raw files for model training
 - **testing** - CSVs or raw files for out-of-sample testing
