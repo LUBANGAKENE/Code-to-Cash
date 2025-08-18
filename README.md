@@ -40,3 +40,5 @@ Code to Cash is an end-to-end algorithmic Forex trading system that harnesses de
 - **code_to_cash_usdjpy_h4_02-08-25.ipynb** - Jupyter notebook: train & evaluate model
 - **code_to_cash_usdjpy_h4_2022-2025_predictions.txt** Text file: generated predictions on unseen data
 - **usdjpy_breakout_backtest.mq5** - MQL5 Expert Advisor: backtesting algos in MT5
+- **receive_predictions.mq5** – MQL5 script to test receiving predictions from Python via ZeroMQ  
+- **send_ctc_v1_predictions.py** – Python prediction server that loads the trained model, fetches market data, generates features, and serves predictions to MT5 over ZeroMQ  
