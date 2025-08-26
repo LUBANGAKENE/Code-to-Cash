@@ -56,3 +56,7 @@ Custom and third-party helper classes used by the EA:
 - **Include/Zmq/**  
   - `AtomicCounter.mqh`, `Context.mqh`, `Errno.mqh`, `Socket.mqh`,  
     `SocketOptions.mqh`, `Z85.mqh`, `Zmq.mqh`, `ZmqMsg.mqh` – ZeroMQ bindings for MQL5 to communicate with Python services
+
+### Portfolio Dashboard (FastAPI + Streamer)
+- **backend.py** – FastAPI backend exposing REST endpoints for live snapshots & equity curve  
+- **mt5_streamer.py** – MT5 script that polls account/positions/deals and streams them to the backend  
