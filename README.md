@@ -59,4 +59,6 @@ Custom and third-party helper classes used by the EA:
 
 ### Portfolio Dashboard (FastAPI + Streamer)
 - `backend.py` – FastAPI backend exposing REST endpoints for live snapshots & equity curve  
-- `mt5_streamer.py` – MT5 script that polls account/positions/deals and streams them to the backend  
+- `mt5_streamer.py` – MT5 script that polls account/positions/deals and streams them to the backend
+- `MT5Streamer.mq5` – MQL5 Expert Advisor that streams account_info, history, and equity ticks to the backend via WebRequest (replaces `mt5_streamer.py`)  
+
